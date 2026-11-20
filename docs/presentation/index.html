@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dishari OS: Project Presentation</title>
+<meta name="description" content="Dishari OS project presentation: why it is needed, what it is, how it works, how it meets the AI Builders Congress 2026 requirements, and its impact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Hind+Siliguri:wght@500;600&display=swap">
+<style>
+:root, [data-theme="light"] {
+  --bg: #f6f4ef; --panel: #efece4; --card: #ffffff; --card2: #f8f6f1; --card3: #ebe7dd;
+  --line: #e5e0d5; --line2: #d6d0c3; --text: #1c2632; --text2: #394553; --muted: #65717e;
+  --em: #1d6a72; --em2: #155359; --em-soft: #e4f0ef; --em-ink: #fff;
+  --gold: #a8641f; --gold-soft: #f6ecdf; --ok: #2e7a4d; --ok-soft: #e4f2e9; --danger: #ad3f2c; --danger-soft: #f8e7e3; --info: #2f5e96; --info-soft: #e6eef8;
+  --shadow: 0 1px 2px rgba(28,38,50,.05), 0 10px 30px -14px rgba(28,38,50,.18);
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Hind Siliguri", Arial, sans-serif;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --bg: #11161d; --panel: #151b23; --card: #18202a; --card2: #1d2631; --card3: #26313d;
+  --line: #29333f; --line2: #37434f; --text: #e7ecf1; --text2: #c6ced7; --muted: #95a2af;
+  --em: #67b7b4; --em2: #4fa29f; --em-soft: rgba(103,183,180,.13); --em-ink: #0c1a1b;
+  --gold: #e1a35c; --gold-soft: rgba(225,163,92,.13); --ok: #74c493; --ok-soft: rgba(116,196,147,.13); --danger: #e27d6a; --danger-soft: rgba(226,125,106,.13); --info: #86ade0; --info-soft: rgba(134,173,224,.13);
+  --shadow: 0 10px 30px -14px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--em); }
+button { font: inherit; }
+.ic { flex: 0 0 auto; vertical-align: -0.2em; }
+
+/* Layout */
+.app { display: grid; grid-template-columns: 290px 1fr; height: 100vh; }
+.side { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+.side-head { padding: 22px 22px 16px; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; }
+.mark { width: 34px; height: 34px; border-radius: 9px; background: var(--em); color: var(--em-ink); display: grid; place-items: center; }
+.brand b { font-family: var(--serif); font-size: 19px; font-weight: 600; display: block; line-height: 1.1; }
+.brand small { font-size: 11.5px; color: var(--muted); }
+.toc { flex: 1; overflow: auto; padding: 12px 10px 20px; }
+.chap { margin-bottom: 10px; }
+.chap-title { display: flex; align-items: baseline; gap: 10px; padding: 8px 12px 4px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.chap-title span.num { font-family: var(--serif); font-size: 15px; letter-spacing: 0; color: var(--muted); font-weight: 600; }
+.toc button { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--text2); padding: 6px 12px 6px 34px; border-radius: 8px; font-size: 13.5px; cursor: pointer; position: relative; }
+.toc button::before { content: ""; position: absolute; left: 16px; top: 50%; width: 6px; height: 6px; border-radius: 50%; transform: translateY(-50%); background: var(--line2); }
+.toc button:hover { background: var(--card2); color: var(--text); }
+.toc button.on { background: var(--card); color: var(--em); font-weight: 600; box-shadow: var(--shadow); }
+.toc button.on::before { background: var(--em); }
+.toc button.intro { padding-left: 12px; }
+.toc button.intro::before { display: none; }
+.toc button.seen::before { background: var(--em); opacity: .45; }
+.side-foot { padding: 14px 18px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
+.main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.topline { height: 3px; background: var(--card3); }
+.topline i { display: block; height: 100%; background: var(--em); transition: width .35s ease; }
+.stage { flex: 1; overflow: auto; padding: 40px 56px 28px; }
+.slide { max-width: 1120px; margin: 0 auto; animation: in .35s ease both; }
+@keyframes in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.controls { border-top: 1px solid var(--line); background: var(--panel); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.btn { appearance: none; border: 1px solid var(--line2); background: var(--card); color: var(--text); padding: 8px 14px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.btn:hover { border-color: var(--em); color: var(--em); }
+.btn.primary { background: var(--em); border-color: var(--em); color: var(--em-ink); }
+.btn.primary:hover { background: var(--em2); color: var(--em-ink); }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--text2); }
+.btn:disabled { opacity: .4; cursor: default; }
+.kbd { font-family: ui-monospace, monospace; font-size: 11px; padding: 1px 6px; border: 1px solid var(--line2); border-radius: 5px; background: var(--card); }
+.notes { border-top: 1px solid var(--line); background: var(--card); padding: 14px 28px; font-size: 14px; color: var(--text2); display: none; max-height: 30vh; overflow: auto; }
+.notes.on { display: block; }
+.notes b { color: var(--gold); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.menu-btn { display: none; }
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .side { position: fixed; inset: 0 30% 0 0; z-index: 20; transform: translateX(-100%); transition: transform .25s; box-shadow: var(--shadow); }
+  .side.open { transform: none; }
+  .menu-btn { display: inline-flex; }
+  .stage { padding: 24px 18px; }
+  .controls { padding: 10px 14px; }
+  .controls .row { flex-wrap: nowrap; gap: 6px; }
+  #pos { display: none; }
+}
+
+/* Slide typography */
+.where { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); display: flex; gap: 10px; align-items: center; }
+.where .sep { width: 18px; height: 1px; background: var(--line2); }
+.where .sub { color: var(--muted); letter-spacing: .08em; }
+h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.015em; line-height: 1.18; margin: 12px 0 10px; }
+h1 { font-size: clamp(34px, 4.6vw, 56px); }
+h2 { font-size: clamp(26px, 3vw, 36px); max-width: 920px; }
+h3 { font-size: 17px; margin: 0 0 6px; font-weight: 650; }
+.lede { font-size: clamp(16px, 1.5vw, 19px); color: var(--text2); max-width: 820px; margin: 0 0 26px; }
+.muted { color: var(--muted); }
+.small { font-size: 13.5px; }
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.g5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .g4, .g5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .g2, .g3, .g4, .g5 { grid-template-columns: 1fr; } }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+.card.flat { box-shadow: none; }
+.card.tint { background: var(--card2); box-shadow: none; }
+.kpi { font-family: var(--serif); font-size: 38px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; }
+.src { font-size: 12px; color: var(--muted); margin-top: 10px; }
+.icbox { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--em-soft); color: var(--em); }
+.icbox.gold { background: var(--gold-soft); color: var(--gold); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 600; background: var(--card2); border: 1px solid var(--line); color: var(--text2); }
+.chip.em { background: var(--em-soft); color: var(--em); border-color: transparent; }
+.chip.gold { background: var(--gold-soft); color: var(--gold); border-color: transparent; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.between { justify-content: space-between; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); background: var(--card2); }
+tr:last-child td { border-bottom: 0; }
+td .ok { color: var(--ok); }
+.pick { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; width: 100%; text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 14px 16px; cursor: pointer; color: var(--text); transition: border-color .15s, background .15s; }
+.pick:hover { border-color: var(--line2); }
+.pick.on, .pick.on:hover { border-color: var(--em); background: var(--em-soft); box-shadow: inset 0 0 0 1px var(--em); }
+.pick b { display: flex; gap: 10px; align-items: center; font-weight: 600; }
+.pick span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 20px; overflow-x: auto; }
+.tab { border: 0; background: transparent; padding: 10px 14px; font-weight: 600; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; white-space: nowrap; }
+.tab.on { color: var(--em); border-bottom-color: var(--em); }
+.detail { animation: in .25s ease both; }
+.bubble { padding: 11px 14px; border-radius: 12px; font-size: 14.5px; margin: 8px 0; max-width: 90%; }
+.bubble.ai { background: var(--card2); border: 1px solid var(--line); }
+.bubble.me { background: var(--em); color: var(--em-ink); margin-left: auto; width: fit-content; }
+.flow { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.flow .node { flex: 1 1 140px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.flow .node b { display: block; font-size: 14px; margin-bottom: 4px; }
+.flow .node span { font-size: 12.5px; color: var(--muted); }
+.flow .arr { align-self: center; color: var(--line2); }
+.bar { height: 7px; border-radius: 99px; background: var(--card3); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--em); border-radius: inherit; transition: width .5s; }
+ul.ticks { list-style: none; padding: 0; margin: 0; }
+ul.ticks li { position: relative; padding-left: 22px; margin: 8px 0; color: var(--text2); }
+ul.ticks li::before { content: ""; position: absolute; left: 3px; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: var(--em); }
+.note-box { border-left: 3px solid var(--gold); background: var(--gold-soft); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 14px; color: var(--text2); }
+.map { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 30px; }
+@media (max-width: 900px) { .map { grid-template-columns: 1fr; } }
+.map button { display: flex; flex-direction: column; justify-content: flex-start; text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 16px; cursor: pointer; color: var(--text); }
+.map button:hover { border-color: var(--em); }
+.map .n { font-family: var(--serif); font-size: 26px; color: var(--em); font-weight: 600; }
+.map b { display: block; margin: 4px 0; }
+.map span { font-size: 13px; color: var(--muted); }
+.steps { display: flex; gap: 6px; margin-bottom: 18px; }
+.steps button { flex: 1; height: 6px; border: 0; border-radius: 4px; background: var(--card3); cursor: pointer; padding: 0; }
+.steps button.on { background: var(--em); }
+.score { display: flex; gap: 4px; }
+.score i { width: 22px; height: 8px; border-radius: 3px; background: var(--card3); }
+.score i.on { background: var(--em); }
+.theme-btn { border: 1px solid var(--line2); background: var(--card); border-radius: 9px; padding: 6px; cursor: pointer; color: var(--text2); display: inline-flex; }
+@media print {
+  .side, .controls, .notes, .topline { display: none !important; }
+  .app { display: block; height: auto; }
+  .stage { overflow: visible; padding: 0; }
+  .slide { page-break-after: always; padding: 24px; animation: none; }
+  .card { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side" aria-label="Chapters">
+    <div class="side-head">
+      <div class="brand"><span class="mark" id="mark"></span><span><b>Dishari OS</b><small>Project presentation</small></span></div>
+    </div>
+    <nav class="toc" id="toc"></nav>
+    <div class="side-foot"><span><span class="kbd">←</span> <span class="kbd">→</span> move &nbsp; <span class="kbd">N</span> notes</span><button class="theme-btn" id="theme" aria-label="Switch light or dark theme" title="Light or dark theme"></button></div>
+  </aside>
+  <section class="main">
+    <div class="topline"><i id="prog"></i></div>
+    <div class="stage" id="stage" tabindex="-1"></div>
+    <div class="notes" id="notes" aria-live="polite"></div>
+    <div class="controls">
+      <div class="row"><button class="btn ghost menu-btn" id="menu" aria-label="Chapters"></button><span class="small muted" id="pos"></span></div>
+      <div class="row">
+        <button class="btn ghost" id="notesBtn"></button>
+        <button class="btn" id="prev" aria-label="Previous slide"></button>
+        <button class="btn primary" id="next"></button>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+(function () {
+  'use strict';
+  /* ---------- Icons (line icons, Lucide conventions) ---------- */
+  var P = {
+    compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+    left: '<path d="m15 18-6-6 6-6"/>', right: '<path d="m9 18 6-6-6-6"/>', menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>',
+    notes: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+    teacher: '<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5M6 8h7M6 11h4"/>',
+    route: '<circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>',
+    id: '<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2.5"/><path d="M14 10h4M14 14h4M5 17c.5-1.5 1.7-2 3-2s2.5.5 3 2"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    help: '<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>',
+    ladder: '<path d="M7 2v20M17 2v20M7 6h10M7 10h10M7 14h10M7 18h10"/>',
+    message: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    mountain: '<path d="m8 3 4 8 5-5 5 15H2z"/>',
+    puzzle: '<path d="M19.4 14.6a2 2 0 1 0-2.8-2.8L15 10.2V6h-4.2l-1.6-1.6a2 2 0 1 0-2.8 2.8L8 8.8V13H3v6a2 2 0 0 0 2 2h6v-5h4.2z"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+    swords: '<path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 6.5 13 3h3v3l-3.5 3.5M5 14l4 4M7 17l-3 3M3 19l2 2"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+    shield: '<path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+    lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    database: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+    network: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.5 17M12 11.5l5.5 5.5"/>',
+    book: '<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>',
+    check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>', minus: '<path d="M5 12h14"/>',
+    arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    chart: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/>',
+    banknote: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+    signal: '<path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 4v16"/>',
+    languages: '<path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/>',
+    camera: '<path d="M14.5 4h-5L7.5 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.5z"/><circle cx="12" cy="13" r="3.5"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    flag: '<path d="M4 22V4M4 4h13l-2 4 2 4H4"/>',
+    building: '<path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/>',
+    microscope: '<path d="M6 18h8M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2z"/>',
+    flask: '<path d="M9 3h6M10 3v6.5L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9.5V3"/><path d="M7 15h10"/>',
+    sigma: '<path d="M18 7V4H6l6 8-6 8h12v-3"/>', fn: '<path d="M9 17c0 2-1 3-3 3M9 17V8a4 4 0 0 1 4-4M6 10h6"/><path d="m14 12 6 6M20 12l-6 6"/>', code: '<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>'
+  };
+  function I(n, s) { return '<svg class="ic" width="' + (s || 18) + '" height="' + (s || 18) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[n] || '') + '</svg>'; }
+  function $(s) { return document.querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+
+  /* ---------- Chapters ---------- */
+  var CH = [
+    { n: 'I', t: 'Why it is needed' },
+    { n: 'II', t: 'What Dishari is' },
+    { n: 'III', t: 'How it works' },
+    { n: 'IV', t: 'How it meets the Congress requirements' },
+    { n: 'V', t: 'Impact and next steps' }
+  ];
+  var S = []; // slides: { ch, title, html(), after(), notes }
+  function where(s) { var c = CH[s.ch]; return '<div class="where"><span>Chapter ' + c.n + '</span><span class="sep"></span><span class="sub">' + c.t + '</span></div>'; }
+
+  /* ===== Opening ===== */
+  S.push({ ch: -1, title: 'Dishari OS', notes: 'Introduce the project in one sentence, then show how the talk is organised. The five chapters follow the argument: the problem, the product, the mechanics, the fit with the Congress brief, and the impact.',
+    html: function () {
+      return '<div class="where"><span>AI Builders Congress 2026</span><span class="sep"></span><span class="sub">LearnSphere AI · UN SDG 4</span></div>' +
+        '<h1>Dishari OS <span style="color:var(--em);font-family:\'Hind Siliguri\',var(--serif)">দিশারী</span></h1>' +
+        '<p class="lede" style="font-family:var(--serif);font-style:italic;font-size:22px;margin-bottom:12px">From classroom to global career.</p>' +
+        '<p class="lede">A bilingual AI tutor that teaches the way learning science recommends, turns the NCTB science curriculum into real-world challenges, and converts what a student masters into a credential employers can trust.</p>' +
+        '<div class="small muted" style="margin-top:8px">How this presentation is organised. Select a chapter to jump to it.</div>' +
+        '<div class="map">' + CH.map(function (c, i) { return '<button data-jump-ch="' + i + '"><div class="n">' + c.n + '</div><b>' + c.t + '</b><span>' + ['Learners have talent but lack good teaching and a credible route to work.', 'One platform that joins learning, practice, proof and hiring.', 'Teaching methods, the learning quest, trustworthy AI, architecture, data.', 'Domain fit, judging rubric, required routes, pitch format, responsible AI.', 'Expected outcomes, business model, pilot and roadmap.'][i] + '</span></button>'; }).join('') + '</div>';
+    } });
+
+  /* ===== I. Why it is needed ===== */
+  S.push({ ch: 0, title: 'Learners are many, good teaching is scarce', notes: 'Click each figure to read what it means. The point is scale plus inequality: most secondary learners are rural, and most families already pay for coaching.',
+    html: function () {
+      var F = [
+        ['9.4M', 'secondary-level students in Bangladesh, 6.5 million of them in rural areas', 'Most learners live where qualified subject teachers are hardest to find. A solution has to work in villages, on basic phones, in Bangla.', 'BANBEIS, via Bonik Barta (2025)', 'https://en.bonikbarta.com/bangladesh/JhDMeK0yiyDtEmOZ'],
+        ['>75%', 'of surveyed students relied on private tutors or coaching centres', 'Families are already paying for extra teaching. The demand is proven; the problem is cost, quality and reach.', 'CAMPE study, via TBS News', 'https://www.tbsnews.net/bangladesh/education/cost-education-jumps-51-secondary-25-primary-students-study-819286'],
+        ['14%', 'secondary dropout rate in 2025, up from 9.9% in 2024 (girls 14.5%)', 'Learners are leaving school faster, and girls more than boys. Engagement and support matter as much as content.', 'BANBEIS Education Statistics 2025, via Daily Sun', 'https://www.daily-sun.com/bangladesh/904738']
+      ];
+      return where(this) + '<h2>Bangladesh has millions of capable learners, but good teaching does not reach most of them.</h2>' +
+        '<p class="lede">Three numbers describe the education side of the problem. Select one to see why it matters for the design.</p>' +
+        '<div class="grid g3" id="facts">' + F.map(function (f, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-f="' + i + '"><div class="kpi">' + f[0] + '</div><span style="font-size:14px;color:var(--text2)">' + f[1] + '</span></button>'; }).join('') + '</div>' +
+        '<div class="card tint detail" id="fact-d" style="margin-top:16px"></div>';
+    },
+    after: function () {
+      var F = this._F || (this._F = [
+        ['Most learners live where qualified subject teachers are hardest to find. A solution has to work in villages, on basic phones, in Bangla.', 'BANBEIS, via Bonik Barta (2025)', 'https://en.bonikbarta.com/bangladesh/JhDMeK0yiyDtEmOZ'],
+        ['Families are already paying for extra teaching. The demand is proven; the problem is cost, quality and reach.', 'CAMPE study, via TBS News', 'https://www.tbsnews.net/bangladesh/education/cost-education-jumps-51-secondary-25-primary-students-study-819286'],
+        ['Learners are leaving school faster, and girls more than boys. Engagement and support matter as much as content.', 'BANBEIS Education Statistics 2025, via Daily Sun', 'https://www.daily-sun.com/bangladesh/904738']]);
+      function show(i) { $$('#facts .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#fact-d').innerHTML = '<h3>Why it matters for Dishari</h3><p style="margin:0">' + F[i][0] + '</p><div class="src">Source: <a href="' + F[i][2] + '" target="_blank" rel="noopener">' + F[i][1] + '</a></div>'; }
+      $$('#facts .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.f); }; });
+      show(0);
+    } });
+
+  S.push({ ch: 0, title: 'School is not leading to work', notes: 'This is the employment side. Even graduates struggle, which means the gap is not only access but relevance and proof of skill.',
+    html: function () {
+      return where(this) + '<h2>Finishing school is not turning into work, even for graduates.</h2>' +
+        '<p class="lede">The second half of the problem is the step from learning to earning. Employers cannot see what a young person can actually do.</p>' +
+        '<div class="grid g4">' +
+        [['8.56M', 'people aged 15 to 29 not in education, employment or training', 'BBS Quarterly LFS 2024, cited by SANEM'],
+         ['31.5%', 'of unemployed youth have completed tertiary education', 'BBS Labour Force Survey 2023'],
+         ['30.8%', 'of surveyed youth said education prepared them "not at all" for work', 'SANEM and ActionAid survey, 2025'],
+         ['~2M', 'young people enter the labour force every year', 'ILO, Global Employment Trends for Youth 2024']].map(function (f) { return '<div class="card"><div class="kpi">' + f[0] + '</div><p class="small" style="margin:8px 0 0;color:var(--text2)">' + f[1] + '</p><div class="src">' + f[2] + '</div></div>'; }).join('') +
+        '</div><div class="note-box" style="margin-top:22px">The conclusion we draw: learners need better teaching <b>and</b> a trusted way to show what they have learned. Solving only one half leaves the other half broken.</div>';
+    } });
+
+  S.push({ ch: 0, title: 'Why current options fall short', notes: 'Walk through the comparison row by row. Be fair to each option: coaching works for those who can pay, chatbots are accessible but unreliable, course platforms rarely fit the NCTB curriculum or rural connectivity.',
+    html: function () {
+      var rows = [
+        ['Affordable for rural families', 0, 1, 1, 1],
+        ['Follows the NCTB curriculum', 1, 0, 0, 1],
+        ['Works in Bangla and on 2G', 1, 2, 0, 1],
+        ['Shows the source of every answer', 2, 0, 1, 1],
+        ['Adapts to each learner', 2, 1, 2, 1],
+        ['Produces proof of skill employers trust', 0, 0, 2, 1],
+        ['Connects learning to real jobs', 0, 0, 2, 1]];
+      var cell = function (v) { return v === 1 ? '<span style="color:var(--ok)">' + I('check', 18) + '</span>' : v === 2 ? '<span class="muted" title="Partly">' + I('minus', 18) + '</span>' : '<span style="color:var(--danger)">' + I('x', 18) + '</span>'; };
+      return where(this) + '<h2>Each existing option solves part of the problem, none solves all of it.</h2>' +
+        '<p class="lede">A fair comparison of what learners in Bangladesh can use today. A dash means "partly".</p>' +
+        '<table><thead><tr><th>What learners need</th><th>Coaching centres</th><th>General AI chatbots</th><th>Online course platforms</th><th style="color:var(--em)">Dishari OS</th></tr></thead><tbody>' +
+        rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + cell(r[1]) + '</td><td>' + cell(r[2]) + '</td><td>' + cell(r[3]) + '</td><td style="background:var(--em-soft)">' + cell(r[4]) + '</td></tr>'; }).join('') + '</tbody></table>';
+    } });
+
+  /* ===== II. What Dishari is ===== */
+  var PILLARS = [
+    ['teacher', 'AI Teacher', 'Learn the concept', 'A tutor with four teaching methods that adapts to each learner and cites NCTB and OpenStax for every answer.', ['Socratic, Bloom, Feynman and scaffolding modes', 'Adaptive practice using a Rasch ability estimate', 'Explainable-AI panel with sources and a grounding score']],
+    ['route', 'Career Navigator', 'See where it leads', 'Maps mastered topics to real occupations through a concept, skill and job graph using O*NET codes.', ['Match percentage for six career paths', 'Biggest skill gap and next best action', 'Interactive knowledge graph']],
+    ['puzzle', 'SkillBridge', 'Apply it to real work', 'Short "day in the life" tasks turn classroom science into applied skill.', ['Bioinformatics: GC content of a dengue gene fragment', 'FinTech: a fair instalment for a farmer\'s micro-loan', 'River testing and clinic data tasks']],
+    ['id', 'Workforce Ready', 'Prove it', 'A three-question AI viva issues a Skill Passport with a QR code that verifies its integrity.', ['Evidence: the task and the viva score', 'SHA-256 integrity hash in the demo', 'Signed W3C Verifiable Credentials in production']],
+    ['globe', 'Talent Marketplace', 'Be found for it', 'Employers search verified skills; identity is hidden until the learner agrees to an introduction.', ['Blind ranking without gender, region or school type', 'Consent required before any contact', 'Open roles matched to verified passports']]
+  ];
+  S.push({ ch: 1, title: 'Five pillars, one learning journey', notes: 'Click through the pillars left to right. Each one hands the learner to the next, which is what makes this one product rather than five tools.',
+    html: function () {
+      return where(this) + '<h2>One platform joins learning, practice, proof and hiring.</h2>' +
+        '<p class="lede">The five LearnSphere pillars are not separate tools in Dishari. Each one passes the learner to the next. Select a step.</p>' +
+        '<div class="grid g5" id="pil">' + PILLARS.map(function (p, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-p="' + i + '"><div class="icbox" style="margin-bottom:12px">' + I(p[0], 20) + '</div><b>' + p[1] + '</b><span>' + (i + 1) + '. ' + p[2] + '</span></button>'; }).join('') + '</div>' +
+        '<div class="card detail" id="pil-d" style="margin-top:16px"></div>';
+    },
+    after: function () {
+      function show(i) { var p = PILLARS[i]; $$('#pil .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#pil-d').innerHTML = '<div class="grid g2"><div><h3>' + p[1] + '</h3><p style="margin:0;color:var(--text2)">' + p[3] + '</p></div><ul class="ticks">' + p[4].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>'; }
+      $$('#pil .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.p); }; });
+      show(0);
+    } });
+
+  var JOURNEY = [
+    ['Monday, 7 pm', 'Learns', 'Nusrat, an HSC science student in Rangpur, studies cell organelles. The tutor asks her questions in Bangla instead of giving the answer, and she works out why muscle cells need more mitochondria.'],
+    ['Tuesday', 'Practises', 'She builds a cell in the sandbox and answers six adaptive questions. Three in a row doubles her points; the difficulty follows her ability estimate.'],
+    ['Wednesday', 'Applies', 'In the real-world challenge she reads a patient\'s blood report from a clinic in Kurigram, recognises dengue, and explains why antibiotics will not help.'],
+    ['Thursday', 'Gets unstuck', 'She photographs a calculus answer she got wrong. Snap-to-Solve points to the exact line with a sign error and gives her three drills.'],
+    ['Friday', 'Proves it', 'Her Career Navigator shows a 58% match with bioinformatics. She completes a short GC-content task, passes a three-question viva and earns a Skill Passport.'],
+    ['Next month', 'Is found', 'A remote health-data lab searching the marketplace sees a verified passport, not a name or a school. Nusrat accepts the introduction request.']
+  ];
+  S.push({ ch: 1, title: 'A learner\'s week with Dishari', notes: 'Use the Next step button or the bar to tell Nusrat\'s story. Each step is something judges can try live on /demo-user.',
+    html: function () {
+      return where(this) + '<h2>What it looks like for one learner.</h2>' +
+        '<p class="lede">Nusrat Jahan is the demo student in the app. Follow one week of her use.</p>' +
+        '<div class="steps" id="jsteps">' + JOURNEY.map(function (_, i) { return '<button aria-label="Step ' + (i + 1) + '" data-j="' + i + '"></button>'; }).join('') + '</div>' +
+        '<div class="card" style="min-height:190px" id="jcard"></div>' +
+        '<div class="row" style="margin-top:14px"><button class="btn" id="jprev">' + I('left', 16) + ' Previous step</button><button class="btn primary" id="jnext">Next step ' + I('right', 16) + '</button></div>';
+    },
+    after: function () {
+      var i = 0;
+      function show() { var j = JOURNEY[i]; $$('#jsteps button').forEach(function (b, k) { b.classList.toggle('on', k <= i); }); $('#jcard').innerHTML = '<div class="detail"><div class="row between"><span class="chip gold">' + j[0] + '</span><span class="small muted">Step ' + (i + 1) + ' of ' + JOURNEY.length + '</span></div><h3 style="font-family:var(--serif);font-size:26px;margin:14px 0 8px;font-weight:600">' + j[1] + '</h3><p style="margin:0;color:var(--text2);font-size:16.5px">' + j[2] + '</p></div>'; $('#jprev').disabled = i === 0; $('#jnext').disabled = i === JOURNEY.length - 1; }
+      $$('#jsteps button').forEach(function (b) { b.onclick = function () { i = +b.dataset.j; show(); }; });
+      $('#jprev').onclick = function () { if (i > 0) { i--; show(); } };
+      $('#jnext').onclick = function () { if (i < JOURNEY.length - 1) { i++; show(); } };
+      show();
+    } });
+
+  /* ===== III. How it works ===== */
+  var MODES = [
+    ['help', 'Socratic inquiry', 'The tutor never hands over the answer. It asks progressively narrower questions until the learner discovers it.', [['ai', 'Which organelle produces most of the cell\'s ATP?'], ['me', 'The nucleus?'], ['ai', 'Close: the nucleus controls the cell. Its nickname is "the powerhouse". Which organelle has that name?']], 'Bloom (1984): one-to-one tutoring; VanLehn (2011): step-based tutoring systems reach d of about 0.76.'],
+    ['ladder', 'Bloom\'s mastery ladder', 'Learners climb six levels, Remember to Create. A correct answer moves up a level; an error moves down one to reinforce.', [['ai', 'Apply: compute the integral of 2x from 0 to 3.'], ['me', '9'], ['ai', 'Correct. Climbing to Analyze.']], 'Bloom\'s revised taxonomy structures questions from recall to original creation.'],
+    ['message', 'Feynman teach-back', 'Roles reverse. The learner explains, the tutor plays a curious classmate, asks about missing ideas and scores clarity from 0 to 100.', [['me', 'Cells need energy. Mitochondria use glucose and oxygen to make ATP, like a battery charger.'], ['ai', 'Clarity 85%. I understood energy, food and oxygen. Can you give me an everyday example?']], 'Chase et al. (2009), the protege effect: students try harder when teaching an agent.'],
+    ['mountain', 'Scaffolding', 'Problems are split into small steps. Hints come in three levels and fade automatically after consecutive correct steps.', [['ai', 'Step 2: now v squared minus u squared equals 2as. Divide both sides by what?'], ['me', 'a'], ['ai', 'Not yet. Hint: s is being multiplied by 2a.']], 'Vygotsky (1978) and Wood, Bruner and Ross (1976): support just beyond independent ability, then fade it.']
+  ];
+  S.push({ ch: 2, title: 'Four ways the tutor teaches', notes: 'Switch between tabs to show the same tutor using different pedagogy. Mention that each method is grounded in published research, shown at the bottom.',
+    html: function () {
+      return where(this) + '<h2>One tutor, four research-based ways of teaching.</h2>' +
+        '<p class="lede">The learner chooses how to be taught. The topic stays the same; the teaching method changes.</p>' +
+        '<div class="tabs" id="mtabs">' + MODES.map(function (m, i) { return '<button class="tab' + (i === 0 ? ' on' : '') + '" data-m="' + i + '">' + I(m[0], 17) + m[1] + '</button>'; }).join('') + '</div><div id="mbody"></div>';
+    },
+    after: function () {
+      function show(i) { var m = MODES[i]; $$('#mtabs .tab').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#mbody').innerHTML = '<div class="grid g2 detail"><div><p style="font-size:17px;color:var(--text2);margin-top:0">' + m[2] + '</p><div class="note-box">' + I('book', 16) + ' ' + m[4] + '</div></div><div class="card tint">' + m[3].map(function (b) { return '<div class="bubble ' + b[0] + '">' + b[1] + '</div>'; }).join('') + '</div></div>'; }
+      $$('#mtabs .tab').forEach(function (b) { b.onclick = function () { show(+b.dataset.m); }; });
+      show(0);
+    } });
+
+  var QUEST = {
+    bio: ['microscope', 'Biology', 'Build a cell by dragging organelles to their jobs.', 'Diagnose a fever case at a Kurigram health complex from a blood report.'],
+    chem: ['flask', 'Chemistry', 'Balance equations while watching atoms on both sides.', 'Neutralise an acid spill in the Turag river using titration data.'],
+    math: ['sigma', 'Mathematics', 'Shape a parabola and fill the area under it with rectangles.', 'Plan a flood-relief drone\'s flight path near Gaibandha.'],
+    eq: ['fn', 'Equations', 'Rearrange physics formulas one valid step at a time.', 'Calculate where a drone must release a medicine box.'],
+    ict: ['code', 'ICT', 'Wire logic gates to match a truth table; assemble Python blocks.', 'Find and fix three bugs in a rural clinic\'s patient script.']
+  };
+  S.push({ ch: 2, title: 'The four-part learning quest', notes: 'Pick a subject to show its sandbox and its real-world challenge. Emphasise that every challenge is set in Bangladesh.',
+    html: function () {
+      var parts = [['puzzle', 'Concept sandbox', 'Explore by doing, before any theory.'], ['target', 'Practice sprint', 'Six adaptive questions; three correct in a row doubles points.'], ['swords', 'Real-world challenge', 'Apply the idea to a Bangladeshi problem.'], ['users', 'Co-op league', 'Mixed teams from urban, rural, madrasah and polytechnic schools.']];
+      return where(this) + '<h2>Every subject becomes a four-part quest set in real Bangladeshi situations.</h2>' +
+        '<div class="grid g4" style="margin:22px 0">' + parts.map(function (p, i) { return '<div class="card flat"><div class="row" style="gap:10px"><div class="icbox gold">' + I(p[0], 18) + '</div><span class="small muted">Part ' + (i + 1) + '</span></div><h3 style="margin-top:12px">' + p[1] + '</h3><p class="small muted" style="margin:0">' + p[2] + '</p></div>'; }).join('') + '</div>' +
+        '<div class="tabs" id="qtabs">' + Object.keys(QUEST).map(function (k, i) { return '<button class="tab' + (i === 0 ? ' on' : '') + '" data-q="' + k + '">' + I(QUEST[k][0], 16) + QUEST[k][1] + '</button>'; }).join('') + '</div><div id="qbody"></div>';
+    },
+    after: function () {
+      function show(k) { var q = QUEST[k]; $$('#qtabs .tab').forEach(function (b) { b.classList.toggle('on', b.dataset.q === k); }); $('#qbody').innerHTML = '<div class="grid g2 detail"><div class="card tint"><span class="small muted">Sandbox</span><p style="margin:6px 0 0">' + q[2] + '</p></div><div class="card tint"><span class="small muted">Real-world challenge</span><p style="margin:6px 0 0">' + q[3] + '</p></div></div>'; }
+      $$('#qtabs .tab').forEach(function (b) { b.onclick = function () { show(b.dataset.q); }; });
+      show('bio');
+    } });
+
+  S.push({ ch: 2, title: 'Answers you can trust', notes: 'Step through the pipeline. The key message: the tutor will say "I do not know" rather than guess, and every answer shows its evidence.',
+    html: function () {
+      var st = [['shield', 'Safety checks', 'Personal details such as phone numbers and NID are removed. Prompt-injection and unsafe requests are blocked.'], ['database', 'Find the source', 'Bilingual search over NCTB and OpenStax passages ranks the most relevant ones.'], ['target', 'Confidence gate', 'If confidence is below the threshold set by the school, the tutor declines and sends the question to a teacher.'], ['teacher', 'Teaching decision', 'The active method decides the next move: hint, question, score or advance.'], ['book', 'Explain it', 'The learner can open the evidence: passages, grounding score, checks and decision.']];
+      return where(this) + '<h2>The tutor shows its evidence, and declines rather than guesses.</h2>' +
+        '<p class="lede">General chatbots can state wrong facts confidently. For children, that is not acceptable. Select a stage of each answer\'s pipeline.</p>' +
+        '<div class="flow" id="pipe">' + st.map(function (s, i) { return (i ? '<div class="arr">' + I('right', 18) + '</div>' : '') + '<button class="node pick' + (i === 0 ? ' on' : '') + '" data-s="' + i + '" style="text-align:left"><b>' + I(s[0], 16) + ' ' + s[1] + '</b></button>'; }).join('') + '</div>' +
+        '<div class="card tint detail" id="pipe-d" style="margin-top:14px"></div>' +
+        '<div class="grid g2" style="margin-top:18px"><div class="card"><h3>Example of a refusal</h3><div class="bubble me">Who will win the next football world cup?</div><div class="bubble ai">I could not find this in your verified curriculum sources, so I will not guess. I have added it to your teacher\'s question list.</div></div>' +
+        '<div class="card"><h3>Design rule</h3><p style="margin:0;color:var(--text2)">A deterministic teaching policy decides every turn. When a language model is switched on, it only rephrases that decision using the same passages, and the server rejects any rephrasing that is less grounded than the original.</p></div></div>';
+    },
+    after: function () {
+      var st = ['Personal details such as phone numbers, emails, national ID numbers and names are masked before anything is processed or stored. Inputs that try to override the tutor\'s rules are blocked and logged.', 'A bilingual search ranks curriculum passages. Each passage carries its book, chapter or section, and licence.', 'Free questions are answered only above a confidence threshold that an administrator controls. Below it, the tutor declines instead of inventing an answer.', 'One of four teaching policies chooses the next move, so behaviour is predictable, testable and works offline.', 'A side panel shows the passages used, a grounding score (the share of the reply\'s words found in the sources), the safety checks and the teaching decision.'];
+      function show(i) { $$('#pipe .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#pipe-d').innerHTML = '<p style="margin:0">' + st[i] + '</p>'; }
+      $$('#pipe .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.s); }; });
+      show(0);
+    } });
+
+  var AGENTS = [
+    ['Pedagogy agent', 'Runs the four teaching policies, tracks mastery and writes the explanation trace.'],
+    ['Game master agent', 'Runs sandboxes, adaptive practice, real-world challenges and the co-op league.'],
+    ['Vision autopsy agent', 'Reads a photo of handwritten work, finds the first wrong line and prescribes drills.'],
+    ['Teacher co-pilot agent', 'Generates NCTB-format questions and answer keys, class misconception maps and parent summaries.'],
+    ['Career graph agent', 'Matches mastery to occupations, runs the viva and issues Skill Passports.'],
+    ['Guardian agent', 'Wraps every call with redaction, injection and safety screening, grounding checks and audit logging.']
+  ];
+  S.push({ ch: 2, title: 'System architecture', notes: 'Name the layers top to bottom, then click two or three agents. Stress that each agent only has access to the tools it needs.',
+    html: function () {
+      var L = [['Client', 'Web app installable on phones, Bangla voice, 2G Lite mode, offline cache'], ['Gateway', 'Serverless API, authentication with one-time codes, rate limits, security headers'], ['Agents', 'Six specialised agents, each with an allow-list of tools'], ['Knowledge', 'Postgres with vector and full-text search, concept-skill-job graph'], ['Guardrails', 'Redaction, injection filter, confidence gate, audit log (applies to every layer)']];
+      return where(this) + '<h2>Six specialised agents share one knowledge layer and one set of guardrails.</h2>' +
+        '<div class="grid g2" style="margin-top:20px;align-items:start"><div>' + L.map(function (l, i) { return '<div class="card flat" style="padding:14px 16px;margin-bottom:8px' + (i === 2 ? ';border-color:var(--em)' : '') + '"><div class="row between"><b style="font-size:14px">' + (i + 1) + '. ' + l[0] + '</b></div><div class="small muted">' + l[1] + '</div></div>'; }).join('') + '</div>' +
+        '<div><div class="small muted" style="margin-bottom:8px">Select an agent</div><div class="grid g2" id="ag">' + AGENTS.map(function (a, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-a="' + i + '"><b>' + I('network', 15) + ' ' + a[0] + '</b></button>'; }).join('') + '</div><div class="card tint detail" id="ag-d" style="margin-top:12px"></div></div></div>';
+    },
+    after: function () {
+      function show(i) { $$('#ag .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#ag-d').innerHTML = '<h3>' + AGENTS[i][0] + '</h3><p style="margin:0;color:var(--text2)">' + AGENTS[i][1] + '</p>'; }
+      $$('#ag .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.a); }; });
+      show(0);
+    } });
+
+  S.push({ ch: 2, title: 'Data, privacy and sovereignty', notes: 'Children\'s data needs a higher standard. Cover the four commitments, then the legal alignment, being careful to say "designed to align" rather than "certified".',
+    html: function () {
+      return where(this) + '<h2>Built for children\'s data from the start.</h2>' +
+        '<div class="grid g4" style="margin:22px 0">' + [['lock', 'No training on student data', 'Learner content is never used to train models.'], ['flag', 'Data stays in Bangladesh', 'Primary storage in-country; only anonymised totals leave.'], ['users', 'Guardian consent', 'Under-18 accounts need consent; guardians can export or delete everything.'], ['shield', 'Everything is audited', 'Every sensitive action is written to a tamper-evident log.']].map(function (c) { return '<div class="card"><div class="icbox">' + I(c[0], 18) + '</div><h3 style="margin-top:12px">' + c[1] + '</h3><p class="small muted" style="margin:0">' + c[2] + '</p></div>'; }).join('') + '</div>' +
+        '<table><thead><tr><th>Framework</th><th>How Dishari is designed to align</th></tr></thead><tbody>' +
+        [['Bangladesh Personal Data Protection Ordinance 2025', 'Citizens own their data; explicit, purpose-specific consent; cross-border transfer of sensitive data only with lawful approval.'], ['GDPR (EU users and recruiters)', 'Data minimisation, parental consent for children, right to erasure, privacy by design.'], ['COPPA (any US users under 13)', 'Verifiable parental consent; no behavioural advertising.'], ['UNICEF policy guidance on AI for children', 'Wellbeing, inclusion, fairness, safety, transparency and explainability.']].map(function (r) { return '<tr><td><b>' + r[0] + '</b></td><td style="color:var(--text2)">' + r[1] + '</td></tr>'; }).join('') + '</tbody></table>';
+    } });
+
+  /* ===== IV. Congress alignment ===== */
+  var LS = [
+    ['AI Teacher', 'Adaptive tutor that personalises to learner pace and gaps', 'Profiling, adaptive difficulty, curriculum RAG', 'Measurable score improvement', 'Four teaching modes; Rasch-based adaptive practice; cited retrieval with a confidence gate; Bloom mastery radar. Planned 24-school randomised pilot measures score gains.', '/app'],
+    ['Career Navigator', 'AI career intelligence mapping skills to opportunities', 'Skills graph, labour-market data, matching', 'Higher placement and relevance', 'Concept-skill-occupation graph with O*NET codes; match percentages and the biggest gap for each learner.', '/app?tab=career and /data'],
+    ['SkillBridge', 'Reskilling pathways bridging education to industry demand', 'Competency modelling, content generation', 'Demonstrated job-readiness uplift', 'Micro-internships with computed answers; Teacher Co-Pilot generates NCTB-format questions; job-readiness tracked by cohort.', '/app?tab=career and /admin'],
+    ['Workforce Ready', 'Upskilling and certification intelligence', 'Assessment, analytics, copilots', 'Verified capability gains', 'AI viva, Skill Passport with QR verification, cohort analytics, Snap-to-Solve mistake analysis.', '/demo-user and /app?tab=snap'],
+    ['Global Talent Marketplace', 'Connecting verified talent with global employers', 'Portfolio verification, matching engine', 'Real hiring and pipeline outcomes', 'Passport verification, blind ranking, consent-first introductions, open roles matched to verified skills.', '/app?tab=talent']
+  ];
+  S.push({ ch: 3, title: 'Fit with the LearnSphere domain', notes: 'The Participants Guide lists five LearnSphere challenge areas. Dishari covers all five. Click each to show the guide\'s wording beside our evidence and the route to demonstrate.',
+    html: function () {
+      return where(this) + '<h2>Dishari covers all five LearnSphere challenge areas in one product.</h2>' +
+        '<p class="lede">The left side quotes what the Congress asks for in each area. The right side shows where Dishari delivers it.</p>' +
+        '<div class="grid g5" id="ls">' + LS.map(function (l, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-l="' + i + '"><b>' + l[0] + '</b><span>' + l[3] + '</span></button>'; }).join('') + '</div><div id="ls-d" style="margin-top:16px"></div>';
+    },
+    after: function () {
+      function show(i) { var l = LS[i]; $$('#ls .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#ls-d').innerHTML = '<div class="grid g2 detail"><div class="card tint"><span class="small muted">What the Congress asks for</span><h3 style="margin-top:6px">' + l[1] + '</h3><p class="small" style="margin:4px 0 0"><b>Capabilities:</b> ' + l[2] + '<br><b>Winning signal:</b> ' + l[3] + '</p></div><div class="card"><span class="small muted">How Dishari delivers it</span><p style="margin:6px 0 10px">' + l[4] + '</p><span class="chip em">' + I('arrow', 13) + ' Show it at ' + l[5] + '</span></div></div>'; }
+      $$('#ls .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.l); }; });
+      show(0);
+    } });
+
+  var RUB = [
+    ['Innovation and AI-native design', 'Originality and non-obvious, transformative use of AI', ['Pedagogy decides and the language model only phrases, so the AI is safe for children and works offline.', 'Feynman mode reverses the roles: the learner teaches the AI.', 'Mistake analysis on handwritten work and verifiable skill credentials join learning to hiring.'], '/app, /architecture'],
+    ['Technical excellence and architecture', 'Architecture quality, depth of AI integration, robustness, explainability', ['Six agents with tool allow-lists; hybrid retrieval; explainability panel on every turn.', 'Offline-first installable web app; serverless API with server-side guardrails.', 'Postgres schema with row-level security, consent tables and a hash-chained audit log.'], '/architecture, /data'],
+    ['Business value and commercial viability', 'Measurable economic value and a realistic path to revenue', ['Families already pay for coaching; a low-cost tier replaces part of that spend.', 'Paid tiers for schools, NGOs and recruiters; free tier for every learner.', 'Transparent ROI calculator with editable assumptions.'], '/pitchdeck, /sdg4'],
+    ['Global scalability and real-world impact', 'Capacity to scale to millions and to international markets', ['Most turns run on the device, so cost per learner stays low.', 'Curriculum-agnostic chunk schema: NCTB first, other boards next.', 'Built for rural, madrasah and polytechnic learners, with equity tracked by cohort and gender.'], '/sdg4, /admin'],
+    ['Responsible AI, data sovereignty and presentation', 'Fairness, explainability, bias mitigation, privacy, data ownership, clear communication', ['Confidence gate, PII redaction, injection defence and a 32-check live audit.', 'In-country data, guardian consent, blind hiring.', 'Honest labelling of sample versus live data; research cited with caveats.'], '/security, /audit']
+  ];
+  S.push({ ch: 3, title: 'Mapping to the judging rubric', notes: 'The team rubric has five criteria worth 20 points each. For each, read the guide\'s description, then our evidence, then where to show it. The top band, 16 to 20, is for breakthrough work, so every claim points to a route judges can open.',
+    html: function () {
+      return where(this) + '<h2>Evidence for each of the five judging criteria.</h2>' +
+        '<p class="lede">Each criterion is worth 20 points. Scores of 16 to 20 are reserved for breakthrough work, so for each criterion we point to something judges can verify live.</p>' +
+        '<div class="grid g2" style="align-items:start"><div id="rub">' + RUB.map(function (r, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-r="' + i + '" style="margin-bottom:8px"><div class="row between"><b>' + r[0] + '</b><span class="small muted">20 pts</span></div></button>'; }).join('') + '</div><div class="card detail" id="rub-d"></div></div>';
+    },
+    after: function () {
+      function show(i) { var r = RUB[i]; $$('#rub .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#rub-d').innerHTML = '<span class="small muted">What judges evaluate</span><p style="margin:4px 0 14px;font-weight:600">' + r[1] + '</p><span class="small muted">Our evidence</span><ul class="ticks">' + r[2].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul><span class="chip em" style="margin-top:8px">' + I('arrow', 13) + ' Demonstrate at ' + r[3] + '</span>'; }
+      $$('#rub .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.r); }; });
+      show(0);
+    } });
+
+  S.push({ ch: 3, title: 'All required public routes', notes: 'Section 10.8 lists required routes. All eleven exist, are public and need no account. Two one-click demo logins are included.',
+    html: function () {
+      var R = [['/app', 'Main user-facing application', 'Tutor, labs, quest game, Snap-to-Solve, Co-Pilot, career tools'], ['/demo-user', 'One-click demo user access', 'Instant login as Nusrat, Level 15, active challenge, Skill Passport'], ['/demo-admin', 'One-click demo admin access', 'Instant entry to the governance console'], ['/admin', 'Users, roles, settings, controls', 'Curriculum upload and indexing, telemetry, cohorts, roles, live guardrails, audit log'], ['/data', 'Data sources, pipelines, lineage, knowledge bases', 'Sources and licences, pipeline, schema, knowledge graph, PII flow'], ['/security', 'Auth, privacy, compliance, responsible AI', 'Row-level security, encryption, legal alignment, injection lab, bias controls'], ['/architecture', 'Technical and AI architecture with diagram', 'Interactive blueprint with a live request trace'], ['/presentation', 'Product, problem, solution, users, market, impact', '180-second storyboard with rehearsal timer'], ['/pitchdeck', 'YC-style investor deck', 'Ten slides, keyboard navigation, printable'], ['/audit', 'One-click global audit report', '32 live checks, score by category, JSON export'], ['/sdg4', 'Additional: SDG 4 and research evidence', 'Target matrix, studies with caveats, effect-size simulator, ROI calculator']];
+      return where(this) + '<h2>Every required route is public, working and needs no account.</h2>' +
+        '<table><thead><tr><th style="width:130px">Route</th><th>What the Congress requires</th><th>What judges will find</th><th style="width:60px">Status</th></tr></thead><tbody>' +
+        R.map(function (r) { return '<tr><td><code style="color:var(--em);font-weight:600">' + r[0] + '</code></td><td class="small">' + r[1] + '</td><td class="small" style="color:var(--text2)">' + r[2] + '</td><td><span class="ok">' + I('check', 18) + '</span></td></tr>'; }).join('') + '</tbody></table>';
+    } });
+
+  var PITCH = [
+    ['0:00 to 0:30', 'Problem', 'Define the problem, users and urgency', 'Rural scale, coaching dependence, dropout, NEET figures', 'Home page'],
+    ['0:30 to 1:00', 'Solution', 'AI-driven solution and differentiation', 'Four teaching methods, curriculum-grounded, offline, bilingual', '/sdg4'],
+    ['1:00 to 2:00', 'Demo', 'Prototype or system walkthrough', 'Nusrat: Socratic then Feynman mode, a real-world challenge, Snap-to-Solve', '/demo-user, /app'],
+    ['2:00 to 2:30', 'AI approach', 'Models, RAG, data, personalisation', 'Explainability panel, six agents, confidence gate', '/architecture'],
+    ['2:30 to 3:00', 'Impact and next step', 'Value, users, what comes next', 'Skill Passport, business model, pilot, live audit', '/audit']
+  ];
+  S.push({ ch: 3, title: 'The 180-second preliminary format', notes: 'The Participants Guide sets the preliminary video structure. Click a segment to see what the guide requires and what we show. The mandatory requirements on the right are all met.',
+    html: function () {
+      return where(this) + '<h2>Our three-minute pitch follows the required structure exactly.</h2>' +
+        '<div class="grid g5" id="pt" style="margin-top:20px">' + PITCH.map(function (p, i) { return '<button class="pick' + (i === 0 ? ' on' : '') + '" data-t="' + i + '"><span style="margin:0 0 4px;font-family:ui-monospace,monospace;color:var(--gold)">' + p[0] + '</span><b>' + p[1] + '</b></button>'; }).join('') + '</div>' +
+        '<div class="grid g2" style="margin-top:16px;align-items:start"><div class="card detail" id="pt-d"></div><div class="card tint"><h3>Mandatory requirements for the preliminary round</h3><ul class="ticks">' + ['A three-minute structured video', 'Clear problem and user definition', 'An AI-native approach (LLM, RAG, graph)', 'Basic system flow: input, AI, output', 'An initial demo or working prototype', 'Bangla and localisation', 'Defined impact (KPIs or outcomes)'].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div></div>';
+    },
+    after: function () {
+      function show(i) { var p = PITCH[i]; $$('#pt .pick').forEach(function (b, k) { b.classList.toggle('on', k === i); }); $('#pt-d').innerHTML = '<span class="small muted">Required</span><p style="margin:4px 0 12px;font-weight:600">' + p[2] + '</p><span class="small muted">What we show</span><p style="margin:4px 0 12px">' + p[3] + '</p><span class="chip em">' + I('arrow', 13) + ' ' + p[4] + '</span>'; }
+      $$('#pt .pick').forEach(function (b) { b.onclick = function () { show(+b.dataset.t); }; });
+      show(0);
+    } });
+
+  S.push({ ch: 3, title: 'Responsible AI commitments', notes: 'Section 15 makes responsible AI a judged dimension with six commitments. Read each commitment and the concrete mechanism that delivers it.',
+    html: function () {
+      var C = [['Lawful, legally sourced data', 'OpenStax and O*NET under CC BY; NCTB text used only under licence; every passage carries its licence.'], ['Transparency in AI decisions', 'Explainability panel on every tutor turn: sources, grounding score, checks and decision.'], ['Active bias detection and mitigation', 'Cohort and gender parity dashboards, Bangla dialect test sets, blind hiring.'], ['No misleading or fabricated demos', 'Sample data is labelled as such; live calculations are labelled; statistics link to sources.'], ['Privacy-preserving design', 'Redaction before processing, pseudonymous IDs, minimum group size of 10 in dashboards, short retention.'], ['Data-sovereignty awareness', 'In-country storage, guardian ownership and export, consent required before any sharing.']];
+      return where(this) + '<h2>Each of the six responsible-AI commitments has a working mechanism behind it.</h2>' +
+        '<div class="grid g3" style="margin-top:22px">' + C.map(function (c, i) { return '<div class="card"><div class="row" style="gap:10px"><span class="icbox">' + I('shield', 18) + '</span><span class="small muted">Commitment ' + (i + 1) + '</span></div><h3 style="margin-top:12px">' + c[0] + '</h3><p class="small" style="margin:0;color:var(--text2)">' + c[1] + '</p></div>'; }).join('') + '</div>' +
+        '<div class="note-box" style="margin-top:18px">The <b>/audit</b> route runs 32 automated checks against the live application across security, privacy, pedagogy, accessibility and hallucination safeguards, and produces an exportable scorecard.</div>';
+    } });
+
+  /* ===== V. Impact ===== */
+  S.push({ ch: 4, title: 'Expected impact, stated honestly', notes: 'Drag the slider between published effect sizes. Be explicit that this is a projection from literature, not a measured result, and that the pilot will measure it.',
+    html: function () {
+      return where(this) + '<h2>What the research suggests is possible, and how we will measure it.</h2>' +
+        '<p class="lede">Choose an effect size from published studies to see where the average Dishari learner would sit against a traditional class. This is a projection, not a trial result.</p>' +
+        '<div class="grid g2" style="align-items:start"><div class="card"><div id="es-btns" class="row" style="margin-bottom:14px"></div><div id="es-chart"></div><div id="es-out" class="row between" style="margin-top:10px"></div></div>' +
+        '<div class="card tint"><h3>Pilot design</h3><ul class="ticks"><li>Cluster-randomised trial in 24 schools in Rangpur and Kurigram, about 1,200 learners</li><li>Primary outcome: an NCTB-aligned science test after 12 weeks</li><li>Also measured: completion, attendance and girls\' participation</li><li>Analysis plan registered before data collection; results published either way</li></ul><h3 style="margin-top:16px">Target KPIs</h3><ul class="ticks"><li>Learning gain of at least 0.3 standard deviations</li><li>Weekly active use above 60%</li><li>Girls\' completion parity of at least 0.97</li><li>1,000 Skill Passports and 100 employer introductions</li></ul></div></div>';
+    },
+    after: function () {
+      var E = [[0.3, 'Conservative', 'd = 0.30'], [0.49, 'Gamification meta-analysis', 'g = 0.49, Sailer and Homner 2020'], [0.76, 'Tutoring systems meta-analysis', 'd = 0.76, VanLehn 2011'], [2.0, 'One-to-one human tutoring', '2 sigma, Bloom 1984 (upper bound)']];
+      function phi(z) { var t = 1 / (1 + 0.2316419 * Math.abs(z)), d = 0.3989423 * Math.exp(-z * z / 2), p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; }
+      function curve(m, xmin, xmax, X, Y) { var p = ''; for (var i = 0; i <= 120; i++) { var x = xmin + (xmax - xmin) * i / 120; p += (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(Math.exp(-0.5 * (x - m) * (x - m)) / 2.5066).toFixed(1); } return p; }
+      function draw(k) {
+        var d = E[k][0], W = 520, H = 200, xmin = -3.4, xmax = 3.4 + d;
+        var X = function (x) { return 10 + (W - 20) * (x - xmin) / (xmax - xmin); }, Y = function (y) { return H - 24 - (H - 40) * y / 0.42; };
+        $('#es-chart').innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%"><path d="' + curve(0, xmin, xmax, X, Y) + '" fill="none" stroke="var(--muted)" stroke-width="2"/><path d="' + curve(d, xmin, xmax, X, Y) + '" fill="var(--em-soft)" stroke="var(--em)" stroke-width="2.4"/><line x1="10" x2="' + (W - 10) + '" y1="' + (H - 24) + '" y2="' + (H - 24) + '" stroke="var(--line2)"/><text x="' + (X(0) - 6) + '" y="' + (H - 6) + '" text-anchor="end" font-size="12" fill="var(--muted)">Traditional class</text><text x="' + (X(d) + 6) + '" y="' + (H - 6) + '" font-size="12" font-weight="700" fill="var(--em)">Dishari learner</text></svg>';
+        var pct = Math.round(phi(d) * 100);
+        $('#es-out').innerHTML = '<span class="small muted">' + E[k][2] + '</span><span><b style="font-family:var(--serif);font-size:24px">' + pct + 'th</b> <span class="small muted">percentile</span></span>';
+        $$('#es-btns .btn').forEach(function (b, i) { b.classList.toggle('primary', i === k); });
+      }
+      $('#es-btns').innerHTML = E.map(function (e, i) { return '<button class="btn" data-e="' + i + '" style="font-size:12.5px;padding:6px 10px">' + e[1] + '</button>'; }).join('');
+      $$('#es-btns .btn').forEach(function (b) { b.onclick = function () { draw(+b.dataset.e); }; });
+      draw(2);
+    } });
+
+  S.push({ ch: 4, title: 'Business model and scale', notes: 'Explain who pays and why. Pricing is a proposal to be validated in the pilot. Then the three growth phases.',
+    html: function () {
+      var tiers = [['Learner: Free', '৳0', 'All four teaching modes, offline engine, labs and quests'], ['Learner: Plus', '৳199 / month', 'Language-model tutor, unlimited Snap-to-Solve, mock exams'], ['Schools and NGOs', '৳300 / learner / year', 'Admin console, Teacher Co-Pilot, analytics, single sign-on'], ['Recruiters', 'US$199 / month', 'Verified-talent search and consented introductions']];
+      return where(this) + '<h2>Free for every learner, paid by institutions and employers.</h2>' +
+        '<div class="grid g4" style="margin-top:22px">' + tiers.map(function (t) { return '<div class="card"><span class="small muted">' + t[0] + '</span><div class="kpi" style="font-size:24px;margin:8px 0">' + t[1] + '</div><p class="small" style="margin:0;color:var(--text2)">' + t[2] + '</p></div>'; }).join('') + '</div>' +
+        '<p class="small muted" style="margin:10px 0 22px">Proposed pricing, to be validated in the pilot. Fee waivers for char, haor and low-income learners are funded by institutional and donor programmes.</p>' +
+        '<div class="flow">' + [['Phase 1: months 0 to 6', 'Rangpur and Kurigram pilot with an education NGO; teacher champions; madrasah and polytechnic cohorts.'], ['Phase 2: months 6 to 18', 'Division-wide school licences; Android app for low-cost phones; parent SMS growth loop.'], ['Phase 3: month 18 onward', 'National NCTB science coverage; recruiter marketplace through the NRB network; other South Asian curricula.']].map(function (p, i) { return (i ? '<div class="arr">' + I('right', 18) + '</div>' : '') + '<div class="node"><b>' + p[0] + '</b><span>' + p[1] + '</span></div>'; }).join('') + '</div>';
+    } });
+
+  S.push({ ch: 4, title: 'Roadmap and team', notes: 'Close the business case with the roadmap and the team roles the Congress requires. Fill in names before presenting.',
+    html: function () {
+      return where(this) + '<h2>What happens next, and who will do it.</h2>' +
+        '<div class="grid g2" style="margin-top:22px;align-items:start"><div class="card"><h3>Roadmap</h3><table style="border:0;box-shadow:none"><tbody>' + [['Q1 2027', 'Pilot launch in 24 schools; NCTB content licence; data protection impact assessment'], ['Q2 2027', 'Android app; photo analysis generally available; in-country data hosting'], ['Q3 2027', 'Pilot results published; school licences across Rangpur division'], ['2028', 'National science coverage; talent marketplace; first regional expansion']].map(function (r) { return '<tr><td style="width:90px"><span class="chip gold">' + r[0] + '</span></td><td class="small" style="color:var(--text2)">' + r[1] + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+        '<div class="card"><h3>Team roles</h3><table style="border:0;box-shadow:none"><tbody>' + ['Team leader and coordinator', 'Business analyst and data scientist', 'UI/UX and frontend developer', 'Backend and data engineer', 'Presentation and communication lead', 'NRB or global advisor'].map(function (r) { return '<tr><td class="small">' + r + '</td><td class="small muted">Name</td></tr>'; }).join('') + '</tbody></table><p class="small muted" style="margin:10px 0 0">Proposed seed requirement: US$350K for 18 months (product and AI 40%, pilot and research 25%, go-to-market 20%, compliance and infrastructure 15%).</p></div></div>';
+    } });
+
+  S.push({ ch: 4, title: 'Summary', notes: 'Recap in one sentence per chapter, then invite judges to try the two demo logins.',
+    html: function () {
+      return '<div class="where"><span>Summary</span></div><h1 style="font-size:clamp(30px,3.8vw,46px)">From classroom to global career.</h1>' +
+        '<div class="grid g5" style="margin-top:26px">' + [['I', 'The need', 'Millions of capable learners lack good teaching and a credible route to work.'], ['II', 'The product', 'One platform that joins learning, practice, proof and hiring.'], ['III', 'The method', 'Research-based teaching, grounded answers, six agents, children\'s data protected.'], ['IV', 'The fit', 'All five LearnSphere areas, all five rubric criteria, all eleven routes.'], ['V', 'The impact', 'Measured in a randomised pilot; free for learners, paid by institutions.']].map(function (c) { return '<div class="card flat"><div style="font-family:var(--serif);font-size:24px;color:var(--em);font-weight:600">' + c[0] + '</div><h3 style="margin-top:6px">' + c[1] + '</h3><p class="small muted" style="margin:0">' + c[2] + '</p></div>'; }).join('') + '</div>' +
+        '<div class="card tint" style="margin-top:22px"><div class="row between"><div><h3 style="margin:0">Try it</h3><p class="small muted" style="margin:4px 0 0">Open the deployed app and use the one-click demo accounts.</p></div><div class="row"><span class="chip em">/demo-user</span><span class="chip em">/demo-admin</span><span class="chip em">/audit</span></div></div></div>';
+    } });
+
+  /* ---------- Engine ---------- */
+  var cur = 0, seen = {};
+  try { var h = parseInt((location.hash || '').replace('#', ''), 10); if (h > 0 && h <= S.length) cur = h - 1; } catch (e) { /* ignore */ }
+  function toc() {
+    var html = '<div class="chap"><button data-go="0" class="intro' + (cur === 0 ? ' on' : '') + '">Introduction</button></div>';
+    CH.forEach(function (c, ci) {
+      html += '<div class="chap"><div class="chap-title"><span class="num">' + c.n + '</span>' + c.t + '</div>';
+      S.forEach(function (s, i) { if (s.ch === ci) html += '<button data-go="' + i + '" class="' + (i === cur ? 'on' : seen[i] ? 'seen' : '') + '">' + s.title + '</button>'; });
+      html += '</div>';
+    });
+    $('#toc').innerHTML = html;
+    $$('#toc [data-go]').forEach(function (b) { b.onclick = function () { go(+b.dataset.go); $('#side').classList.remove('open'); }; });
+  }
+  function go(i) {
+    cur = Math.max(0, Math.min(S.length - 1, i)); seen[cur] = true;
+    var s = S[cur];
+    $('#stage').innerHTML = '<article class="slide">' + s.html.call(s) + '</article>';
+    if (s.after) s.after.call(s);
+    $$('[data-jump-ch]').forEach(function (b) { b.onclick = function () { var ch = +b.dataset.jumpCh; for (var k = 0; k < S.length; k++) if (S[k].ch === ch) return go(k); }; });
+    $('#notes').innerHTML = '<b>Speaker notes</b>' + (s.notes || '');
+    $('#pos').textContent = (cur + 1) + ' / ' + S.length + (s.ch >= 0 ? '  ·  Chapter ' + CH[s.ch].n : '');
+    $('#prog').style.width = ((cur + 1) / S.length * 100) + '%';
+    $('#prev').disabled = cur === 0;
+    $('#next').innerHTML = cur === S.length - 1 ? 'End' : 'Next ' + I('right', 16);
+    $('#next').disabled = cur === S.length - 1;
+    $('#stage').scrollTop = 0;
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) { /* ignore */ }
+    toc();
+    var on = document.querySelector('#toc .on'); if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest' });
+  }
+  function theme(t) { document.documentElement.setAttribute('data-theme', t); $('#theme').innerHTML = I(t === 'dark' ? 'sun' : 'moon', 17); try { localStorage.setItem('dishari.deck.theme', t); } catch (e) { /* ignore */ } }
+  $('#mark').innerHTML = I('compass', 20);
+  $('#prev').innerHTML = I('left', 16);
+  $('#notesBtn').innerHTML = I('notes', 16) + ' Notes';
+  $('#menu').innerHTML = I('menu', 18);
+  $('#prev').onclick = function () { go(cur - 1); };
+  $('#next').onclick = function () { go(cur + 1); };
+  $('#notesBtn').onclick = function () { $('#notes').classList.toggle('on'); };
+  $('#menu').onclick = function () { $('#side').classList.toggle('open'); };
+  $('#theme').onclick = function () { theme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); };
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(S.length - 1);
+    else if (e.key.toLowerCase() === 'n') $('#notes').classList.toggle('on');
+  });
+  var saved = 'light'; try { saved = localStorage.getItem('dishari.deck.theme') || 'light'; } catch (e) { /* ignore */ }
+  theme(saved);
+  go(cur);
+})();
+</script>
+</body>
+</html>

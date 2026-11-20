@@ -1,0 +1,12 @@
+{
+  "name": "Dishari OS, From Classroom to Global Career",
+  "short_name": "Dishari",
+  "description": "Bilingual, curriculum-grounded AI tutor, STEM quest game and verifiable skills-to-jobs bridge.",
+  "start_url": "./app/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#1d6a72",
+  "lang": "bn-BD",
+  "icons": [{ "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
